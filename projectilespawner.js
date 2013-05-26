@@ -1,4 +1,5 @@
-﻿(function (undefined) {
+﻿// test
+(function (undefined) {
 
     var projectiles = [];
 
