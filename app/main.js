@@ -15,7 +15,7 @@ define(["virality", "components/heartbeat", "components/sprite",
         var fps = new fpsCounter();
         v.components(fps);
         
-        var audio = v.load("test.mp3");
+        var audio = v.load("test.ogg");
         
         audioAnalyser.globalDetected = function(global) {
             if (global > 0) {
@@ -23,7 +23,7 @@ define(["virality", "components/heartbeat", "components/sprite",
             }
         }
         
-        //audioAnalyser.analyse(audio);
+        audioAnalyser.analyse(audio);
         v.components(audioAnalyser);
          
         document.getElementById("pause")
