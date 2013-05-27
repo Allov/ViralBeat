@@ -95,14 +95,29 @@ define([], function() {
             }
             
             var path = options.assetsPath + asset.media;
+            var isAudio = path.match(/.*\.(mp3|ogg)/g);
+            var isImage = path.match(/.*\.(jpg|gif|png)/g);
             
             if (!assets[asset.name]) {
-                virality.log("Loading asset: " + asset.name + "[" + path + "]", "loader");
-                var image = new Image();
-                image.src = path;
+                var media;
+                if (isAudio) {
+                    virality.log("Loading audio asset: " + asset.name + "[" + path + "]", "loader");
+                    var media = new Audio();
+                    media.src = path;
+                    
+                    assets[asset.name] = media;
+                }
                 
-                assets[asset.name] = image;
+                if (isImage) {
+                    virality.log("Loading image asset: " + asset.name + "[" + path + "]", "loader");
+                    var media = new Image();
+                    media.src = path;
+                    
+                    assets[asset.name] = media;
+                }
             }
+            
+            return media;
         },
         components: function(component) {
             if (component.name) {

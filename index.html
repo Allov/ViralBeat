@@ -2,16 +2,37 @@
 <html>
 <head>
     <title>Viral Beat</title>
+    <link rel="stylesheet" href="app/libs/bootstrap/css/bootstrap.min.css"/>
     <script src="app/libs/require.js" data-main="app/main"></script>
     <script>
         requirejs.config({
             "baseUrl": "app"
         });
     </script>
+    <style>
+        #main {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <button id="pause">Pause</button>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="#">ViralBeat</a>
+
+                <button id="pause" class="btn btn-primary">Pause</button>
+            
+                <button id="play" class="btn btn-primary">Play</button>
+                <button id="stop" class="btn btn-primary">Stop</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="main" class="hero-unit center">
+            <canvas id="viralbeat"/>
+        </div>
     </div>
 </body>
+     
 </html>
