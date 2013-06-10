@@ -1,6 +1,6 @@
 define(["virality"], function(v) {
     var layers = [];
-    var layersVelocity = [0.25, 0.1, 0.05];
+    var layersVelocity = [0.1, 0.05, 0.01];
 
     var layersPosition = [
         {x: 0, y: 0},
@@ -84,7 +84,14 @@ define(["virality"], function(v) {
                     layersPosition[i].x = 0;
                 }
             }
-            
+        },
+        fullScreen: function() {
+            /*
+            for(var i in layers) {
+                layers[i].width = v.viewport.w;
+                layers[i].height = v.viewport.h;
+                v.log(v.viewport, "starfield");
+            }*/
         }
     };
     

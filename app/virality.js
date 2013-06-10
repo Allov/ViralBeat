@@ -1,10 +1,13 @@
 define([], function() {
     var requestAnimationFrame =
-        window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
-        window.oRequestAnimationFrame;        
+        window.requestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        function (callback) { setTimeout(callback, 1000/60); return 1; };
+
+    var requestFullscreen;
 
     var canvas,
         buffer,
@@ -24,7 +27,7 @@ define([], function() {
         debug: true,
         assetsPath: "assets/"
     };
-    
+
     var virality = {
         config: function(settings) {
             for(var i in settings) {
@@ -44,15 +47,28 @@ define([], function() {
             } else {
                 canvas = document.getElementById(canvasId);
             }
-
+            
             buffer = document.createElement("canvas");
-
+            
             canvas.width = buffer.width = options.viewport.w;
             canvas.height = buffer.height = options.viewport.h;
-            
-            context = canvas.getContext("2d");
-            contextBuffer = buffer.getContext("2d");
 
+            context = canvas.getContext("2d");
+            context.webkitImageSmoothingEnabled = false;
+            contextBuffer = buffer.getContext("2d");
+            
+            document.addEventListener("fullscreenchange", function () {
+                virality.resizeToNormal();
+            }, false);
+             
+            document.addEventListener("mozfullscreenchange", function () {
+                virality.resizeToNormal();
+            }, false);
+             
+            document.addEventListener("webkitfullscreenchange", function () {
+                virality.resizeToNormal();
+            }, false);            
+            
             return virality;
         },
         update: function(elapsed) {
@@ -73,7 +89,7 @@ define([], function() {
                 }
             }
             
-            context.drawImage(buffer, 0, 0, options.viewport.w, options.viewport.h);
+            context.drawImage(buffer, 0, 0, canvas.width, canvas.height);
         },
         start: function() {
             requestAnimationFrame(loop);
@@ -143,6 +159,24 @@ define([], function() {
         },
         isPaused: function() {
             return pause;
+        },
+        resizeToNormal: function() {
+            if (!document.webkitFullscreenElement && !document.mozFullscreenElement && !document.fullscreenElement) {
+                canvas.width = virality.viewport.w;
+                canvas.height = virality.viewport.h;
+            }
+        },
+        fullscreen: function() {
+            if (canvas.webkitRequestFullscreen) {
+                canvas.webkitRequestFullscreen();
+            } else if (canvas.mozRequestFullscreen) {
+                canvas.mozRequestFullscreen();
+            } else {
+                canvas.requestFullscreen();
+            }
+            
+            canvas.width = screen.width;
+            canvas.height = screen.height;
         }
     };
     
